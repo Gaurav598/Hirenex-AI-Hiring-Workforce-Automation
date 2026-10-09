@@ -54,11 +54,11 @@ Open `http://localhost:3000`; API docs are at `http://127.0.0.1:8000/docs`. `NEX
 ## Validation and deployment
 
 ```bash
-cd backend && python -m compileall -q app
+cd backend && python -m compileall -q app && python -m unittest discover -s tests -v
 cd frontend && npx tsc --noEmit && npm run lint && npm run build
 ```
 
-There is no checked-in automated backend test suite. `backend/railway.json` and root `vercel.json` provide deployment configuration examples. Set the exact frontend HTTPS origin in `FRONTEND_ORIGIN`; CORS allows that origin and local development origins. Set `PUBLIC_BASE_URL` to a publicly reachable HTTPS backend for Hunar callbacks. Review the host's service routing and persistent database choice before deployment: local SQLite on ephemeral hosting loses state.
+The backend has one isolated application smoke test for its root and health routes; it does not cover the full recruitment or attendance workflows. `backend/railway.json` and root `vercel.json` provide deployment configuration examples. Set the exact frontend HTTPS origin in `FRONTEND_ORIGIN`; CORS allows that origin and local development origins. Set `PUBLIC_BASE_URL` to a publicly reachable HTTPS backend for Hunar callbacks. Review the host's service routing and persistent database choice before deployment: local SQLite on ephemeral hosting loses state.
 
 The current API and Hunar webhook have no application-level authentication or webhook signature verification. Do not expose them for real candidate operations until authorization, consent, rate controls, and webhook verification are implemented. Avoid triggering paid APIs with demo records.
 
